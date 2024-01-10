@@ -1,4 +1,10 @@
 import random
+# import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib
+matplotlib.use('TkAgg',force=True)
+from matplotlib import pyplot as plt
+print("Switched to:",matplotlib.get_backend())
 
 class Genetica:
    def __init__(self,creatures_amount,creature_size,allowed_generations):
@@ -97,7 +103,17 @@ class Genetica:
       intRep = self.bin2int(binRep)
       print(f'### Result ###\n\nbin: {binRep}\nint: {intRep}\n')
 
-
+      if PLOT:
+         intRep = [None]*self.creatures_amount
+         fitnessArray = [None]*self.creatures_amount
+         for creature in range(self.creatures_amount):
+            binRep = self.creatures[creature].state
+            intRep[creature] = self.bin2int(binRep)
+            fitnessArray[creature] = self.creatures[creature].fitness
+         state = np.array(intRep)
+         fitness = np.array(fitnessArray)
+         plt.scatter(state, fitness)
+         plt.show
 
 
 
@@ -129,6 +145,7 @@ class Creature:
 
 
 # Global Parameters
+PLOT = 1
 DEBUG = 0
 CROSSOVER_BITS = 2
 NUM_SELECTED = 2
